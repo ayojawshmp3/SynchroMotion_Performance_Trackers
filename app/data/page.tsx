@@ -11,7 +11,7 @@ export default function DataPage() {
   return (
     <main className="p-8 space-y-4">
       {/* Simple header so you can verify routing works */}
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
         Data
       </h1>
 

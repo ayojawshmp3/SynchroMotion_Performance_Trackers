@@ -4,7 +4,7 @@
 export default function HelpPage() {
   return (
     <main className="p-8 space-y-4">
-      <h1 className="text-3xl font-semibold tracking-tight">
+      <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
         Help & Support
       </h1>
 

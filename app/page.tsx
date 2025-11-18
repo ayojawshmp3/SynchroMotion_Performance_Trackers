@@ -8,7 +8,7 @@ export default function Home() {
     <main className="p-8 space-y-6">
       {/* Header */}
       <header>
-        <h1 className="text-3xl font-semibold tracking-tight">
+        <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
           Welcome to your Dashboard, <span className="text-emerald-700">Chester</span>
         </h1>
       </header>
@@ -27,23 +27,23 @@ export default function Home() {
 
         {/* Session info card */}
         <aside className="rounded-3xl bg-slate-100 p-6 shadow-lg">
-          <h2 className="text-lg font-semibold mb-3">Session Information</h2>
+          <h2 className="text-lg font-semibold mb-3 text-gray-900">Session Information</h2>
           <dl className="space-y-2 text-sm">
             <div>
-              <dt className="font-medium">Title</dt>
-              <dd>Session 12</dd>
+              <dt className="font-medium text-gray-900">Title</dt>
+              <dd className="text-gray-900">Session 12</dd>
             </div>
             <div>
-              <dt className="font-medium">Duration</dt>
-              <dd>8 minutes</dd>
+              <dt className="font-medium text-gray-900">Duration</dt>
+              <dd className="text-gray-900">8 minutes</dd>
             </div>
             <div>
-              <dt className="font-medium">Device</dt>
-              <dd>SynchroFit V1</dd>
+              <dt className="font-medium text-gray-900">Device</dt>
+              <dd className="text-gray-900">SynchroFit V1</dd>
             </div>
             <div>
-              <dt className="font-medium">Notes</dt>
-              <dd>
+              <dt className="font-medium text-gray-900">Notes</dt>
+              <dd className="text-gray-900">
                 3 sets of squats, began with 225, up 1 plate on 2nd set, went
                 down on 3rd set.
               </dd>
