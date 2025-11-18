@@ -1,4 +1,8 @@
 // app/page.tsx
+
+// notes:
+// have a preset page with different settings for measurable outputs:
+// - ex: if doing bench: power output, height, velocity
 export default function Home() {
   return (
     <main className="p-8 space-y-6">
