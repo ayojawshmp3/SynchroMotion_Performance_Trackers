@@ -3,6 +3,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
+import { ThemeProvider } from "@/components/theme-provider";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,12 +23,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <div className="flex min-h-screen bg-neutral-100">
-          <Sidebar />
-          <div className="flex-1">{children}</div>
-        </div>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SidebarProvider>
+            <Sidebar />
+            <SidebarInset className="bg-background">
+              <div className="flex min-h-screen flex-col">
+                <header className="flex h-16 items-center gap-3 border-b px-6 md:hidden">
+                  <SidebarTrigger className="-ml-2 text-foreground" />
+                  <p className="text-sm font-semibold tracking-tight text-foreground">
+                    SynchroMotion Dashboard
+                  </p>
+                </header>
+                <div className="flex-1">{children}</div>
+              </div>
+            </SidebarInset>
+          </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

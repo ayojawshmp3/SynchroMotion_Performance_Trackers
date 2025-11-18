@@ -3,6 +3,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LogOut } from "lucide-react";
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Sidebar as UISidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarSeparator,
+} from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Dashboard", href: "/" },
@@ -15,45 +32,67 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-screen w-64 flex-col bg-gradient-to-b from-emerald-700 to-emerald-500 text-white shadow-xl">
-      {/* Logo / brand */}
-      <div className="flex items-center justify-center h-24 border-b border-white/10">
-        <div className="text-center">
-          <div className="text-xs uppercase tracking-[0.35em]">SynchroMotion</div>
-          <div className="text-sm font-semibold">Performance Trackers</div>
-        </div>
-      </div>
+    <UISidebar
+      className="border-none"
+      style={{
+        background:
+          "linear-gradient(180deg, color-mix(in oklch, var(--sidebar) 90%, white 10%), color-mix(in oklch, var(--sidebar) 80%, black 20%))",
+      }}
+    >
+      <div className="flex h-full flex-col text-sidebar-foreground shadow-xl">
+        <SidebarHeader className="border-sidebar-border px-2 py-6 text-center">
+          <p className="text-xs uppercase tracking-[0.35em] text-sidebar-foreground/80">
+            SynchroMotion
+          </p>
+          <p className="text-sm font-semibold">Performance Trackers</p>
+        </SidebarHeader>
 
-      {/* User area */}
-      <div className="flex flex-col items-center py-6 border-b border-white/10">
-        <div className="h-16 w-16 rounded-full bg-white/20" />
-        <p className="mt-2 text-sm font-medium">Chester Stone</p>
-      </div>
+        <SidebarContent className="flex flex-1 flex-col p-0">
+          <div className="flex flex-col items-center border-b border-sidebar-border px-6 py-6">
+            <Avatar className="size-16 border-2 border-sidebar-foreground/30 bg-sidebar-foreground/10">
+              <AvatarFallback className="bg-transparent text-base font-semibold text-sidebar-foreground">
+                CS
+              </AvatarFallback>
+            </Avatar>
+            <p className="mt-2 text-sm font-medium">Chester Stone</p>
+          </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 px-4 py-4 space-y-1">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center rounded-lg px-3 py-2 text-sm transition
-                ${isActive ? "bg-white text-emerald-700 font-semibold" : "hover:bg-white/10"}
-              `}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
+          <SidebarGroup className="flex-1 p-0">
+            <SidebarGroupContent className="px-4 py-4">
+              <SidebarMenu>
+                {navItems.map((item) => (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === item.href}
+                      className={cn(
+                        "rounded-xl px-3 py-2 text-sm font-medium text-sidebar-foreground/80",
+                        "transition hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground",
+                        "data-[active=true]:bg-black data-[active=true]:text-white",
+                        "dark:data-[active=true]:bg-white dark:data-[active=true]:text-black"
+                      )}
+                    >
+                      <Link href={item.href}>{item.label}</Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
 
-      {/* Logout */}
-      <div className="px-4 pb-6">
-        <button className="w-full rounded-lg border border-white/30 px-3 py-2 text-sm hover:bg-white/10">
-          Log out
-        </button>
+        <SidebarSeparator className="bg-sidebar-border/60" />
+
+        <SidebarFooter className="px-4 pb-6">
+          <Button
+            variant="outline"
+            className="w-full border-sidebar-border bg-sidebar text-sidebar-foreground hover:bg-sidebar-foreground/10"
+          >
+            <LogOut className="size-4" />
+            Log out
+          </Button>
+        </SidebarFooter>
       </div>
-    </aside>
+    </UISidebar>
   );
 }

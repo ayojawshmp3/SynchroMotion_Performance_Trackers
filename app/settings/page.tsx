@@ -1,17 +1,33 @@
 // app/settings/page.tsx
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
 // This page is rendered at route "/settings".
 export default function SettingsPage() {
   return (
-    <main className="p-8 space-y-4">
-      <h1 className="text-3xl font-semibold tracking-tight text-gray-900">
-        Settings
-      </h1>
-
-      <p className="text-sm text-slate-600">
-        This is the Settings page. Eventually you can configure user profile,
-        device preferences, and measurement units here.
-      </p>
+    <main className="space-y-6 p-8">
+      <Card className="max-w-3xl shadow-sm">
+        <CardHeader>
+          <CardTitle className="text-3xl font-semibold tracking-tight">
+            Settings
+          </CardTitle>
+          <CardDescription>
+            Configure user profiles, device preferences, and measurement units here soon.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">
+            Keep this area reserved for forms, toggles, and tabs once you start
+            wiring up real settings with other shadcn components.
+          </p>
+        </CardContent>
+      </Card>
     </main>
   );
 }
