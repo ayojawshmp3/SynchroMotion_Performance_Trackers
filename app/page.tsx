@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <main className="space-y-6 p-8">
       {/* Header */}
-      <header>
+      <header className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-3xl font-semibold tracking-tight text-foreground">
           Welcome to your Dashboard, <span className="text-primary">Chester</span>
         </h1>

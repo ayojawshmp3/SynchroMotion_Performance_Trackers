@@ -20,6 +20,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import ThemeToggle from "@/components/theme-toggle";
 
 const navItems = [
   { label: "Dashboard", href: "/" },
@@ -55,6 +56,10 @@ export default function Sidebar() {
               </AvatarFallback>
             </Avatar>
             <p className="mt-2 text-sm font-medium">Chester Stone</p>
+
+            <div className="mt-4">
+              <ThemeToggle />
+            </div>
           </div>
 
           <SidebarGroup className="flex-1 p-0">
