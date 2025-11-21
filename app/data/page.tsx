@@ -15,10 +15,17 @@ import {
 // It is wrapped by app/layout.tsx, so the Sidebar still appears on the left.
 export default function DataPage() {
   return (
-    <main className="space-y-6 p-8">
+    <main className="mx-auto flex w-full max-w-4xl flex-col space-y-6 p-8">
+      {/* Header */}
+      <header className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">
+          Data
+        </h1>
+      </header>
+
+      {/* Main Section */}
       <Card className="max-w-3xl shadow-sm">
         <CardHeader>
-          <CardTitle className="text-3xl tracking-tight">Data</CardTitle>
           <CardDescription>
             This area will surface session history, exports, and detailed analytics.
           </CardDescription>

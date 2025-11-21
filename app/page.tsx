@@ -37,6 +37,28 @@ export default function Home() {
           </CardContent>
         </Card>
 
+        {/* Metrics */}
+        <section className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <Card className="rounded-3xl border-none bg-primary text-primary-foreground shadow-lg">
+            <CardContent className="flex min-h-32 flex-col justify-between">
+              <div className="text-sm text-primary-foreground/80">Peak Power Output (watts)</div>
+              <div className="text-4xl font-bold">250W</div>
+            </CardContent>
+          </Card>
+          <Card className="rounded-3xl border-none bg-secondary text-secondary-foreground shadow-lg">
+            <CardContent className="flex min-h-32 flex-col justify-between">
+              <div className="text-sm text-secondary-foreground/80">Velocity</div>
+              <div className="text-2xl font-semibold">1.2 m/s</div>
+            </CardContent>
+          </Card>
+          <Card className="rounded-3xl border-none bg-accent text-accent-foreground shadow-lg">
+            <CardContent className="flex min-h-32 flex-col justify-between">
+              <div className="text-sm text-accent-foreground/80">Acceleration</div>
+              <div className="text-2xl font-semibold">3.6 m/s²</div>
+            </CardContent>
+          </Card>
+        </section>
+        
         {/* Session info card */}
         <Card className="rounded-3xl border-none shadow-lg">
           <CardHeader>
@@ -67,28 +89,6 @@ export default function Home() {
                 </dd>
               </div>
             </dl>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Bottom metrics */}
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <Card className="rounded-3xl border-none bg-primary text-primary-foreground shadow-lg">
-          <CardContent className="flex min-h-32 flex-col justify-between">
-            <div className="text-sm text-primary-foreground/80">Peak Power Output (watts)</div>
-            <div className="text-4xl font-bold">250W</div>
-          </CardContent>
-        </Card>
-        <Card className="rounded-3xl border-none bg-secondary text-secondary-foreground shadow-lg">
-          <CardContent className="flex min-h-32 flex-col justify-between">
-            <div className="text-sm text-secondary-foreground/80">Velocity</div>
-            <div className="text-2xl font-semibold">1.2 m/s</div>
-          </CardContent>
-        </Card>
-        <Card className="rounded-3xl border-none bg-accent text-accent-foreground shadow-lg">
-          <CardContent className="flex min-h-32 flex-col justify-between">
-            <div className="text-sm text-accent-foreground/80">Acceleration</div>
-            <div className="text-2xl font-semibold">3.6 m/s²</div>
           </CardContent>
         </Card>
       </section>

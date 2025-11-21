@@ -38,10 +38,12 @@ export default function RootLayout({
                 <header className="flex h-16 items-center gap-3 border-b px-6 md:hidden">
                   <SidebarTrigger className="-ml-2 text-foreground" />
                   <p className="text-sm font-semibold tracking-tight text-foreground">
-                    SynchroMotion Dashboard
+                    SynchroMotion Performance Trackers
                   </p>
                 </header>
-                <div className="flex-1">{children}</div>
+                  <div className="flex-1 px-6">                                    
+                    <div className="mx-auto w-full max-w-6xl">{children}</div>          
+                  </div>
               </div>
             </SidebarInset>
           </SidebarProvider>
