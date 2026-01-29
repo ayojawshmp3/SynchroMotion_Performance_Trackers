@@ -2,7 +2,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import ThemeToggle from "@/components/theme-toggle";
+import { useMe } from "@/hooks/useMe";
 
 const navItems = [
   { label: "Dashboard", href: "/" },
@@ -31,6 +32,17 @@ const navItems = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const { user, loading } = useMe();
+
+  const initials =
+    user?.name
+      ?.split(" ")
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((s) => s[0]?.toUpperCase())
+      .join("") ?? "??";
 
   return (
     <UISidebar
@@ -52,11 +64,12 @@ export default function Sidebar() {
           <div className="flex flex-col items-center border-b border-sidebar-border px-6 py-6">
             <Avatar className="size-16 border-2 border-sidebar-foreground/30 bg-sidebar-foreground/10">
               <AvatarFallback className="bg-transparent text-base font-semibold text-sidebar-foreground">
-                CS
+                {initials}
               </AvatarFallback>
             </Avatar>
-            <p className="mt-2 text-sm font-medium">Chester Stone</p>
-
+              <p className="mt-2 text-sm font-medium">
+                {loading ? "Loading..." : user?.name}
+              </p>
             <div className="mt-4">
               <ThemeToggle />
             </div>
@@ -92,6 +105,25 @@ export default function Sidebar() {
           <Button
             variant="outline"
             className="w-full border-sidebar-border bg-sidebar text-sidebar-foreground hover:bg-sidebar-foreground/10"
+            onClick={async () => {
+              try {
+                // 1) Clear any in-progress "active session" state (server-side)
+                await fetch("/api/session/active", {
+                  method: "DELETE",
+                  credentials: "include",
+                });
+
+                // 2) Clear auth cookie
+                await fetch("/api/auth/logout", {
+                  method: "POST",
+                  credentials: "include",
+                });
+              } finally {
+                // 3) Navigate back to login no matter what
+                router.replace("/login");
+                router.refresh();
+              }
+            }}
           >
             <LogOut className="size-4" />
             Log out
