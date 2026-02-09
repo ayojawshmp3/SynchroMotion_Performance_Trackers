@@ -11,12 +11,23 @@ function makeId(prefix: string) {
   return `${prefix}_${Math.random().toString(16).slice(2)}_${Date.now()}`;
 }
 
+function notifySessionUpdated() {
+  if (typeof window !== "undefined") {
+    console.log("[event] session-updated dispatched");
+    window.dispatchEvent(new Event("session-updated"));
+  }
+}
+
 export function useActiveSession() {
   const [active, setActive] = useState<ActiveSession | null>(null);
   const [loading, setLoading] = useState(true);
 
   const persist = useCallback(async (next: ActiveSession | null) => {
     setActive(next);
+
+    // Notify any listeners (like the dashboard graph) that session state changed
+    notifySessionUpdated();
+
     await fetch("/api/session/active", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

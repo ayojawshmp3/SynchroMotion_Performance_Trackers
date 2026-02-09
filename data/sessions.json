@@ -1,0 +1,72 @@
+[
+  {
+    "id": "session_d6f87973ff8fe8_1770594663504",
+    "userId": "u1",
+    "userEmail": "JAlvarez91@my.gcu.edu",
+    "createdAt": "2026-02-08T23:51:03.504Z",
+    "endedAt": "2026-02-08T23:51:22.489Z",
+    "notes": "",
+    "completedExercises": [
+      {
+        "exercise": "Curls",
+        "peakPowerW": 0,
+        "peakVelocity": 0,
+        "peakAcceleration": 0
+      }
+    ]
+  },
+  {
+    "id": "session_11b8a2745b309_1770595859763",
+    "userId": "u2",
+    "userEmail": "NKennedy13@my.gcu.edu",
+    "createdAt": "2026-02-09T00:10:59.763Z",
+    "endedAt": "2026-02-09T00:11:07.024Z",
+    "notes": "",
+    "completedExercises": [
+      {
+        "exercise": "Squat",
+        "peakPowerW": 0,
+        "peakVelocity": 0,
+        "peakAcceleration": 0
+      }
+    ]
+  },
+  {
+    "id": "session_adff1b0d89db5_1770595897723",
+    "userId": "u1",
+    "userEmail": "JAlvarez91@my.gcu.edu",
+    "createdAt": "2026-02-09T00:11:37.723Z",
+    "endedAt": "2026-02-09T00:11:49.459Z",
+    "notes": "",
+    "completedExercises": [
+      {
+        "exercise": "Bench Press",
+        "peakPowerW": 0,
+        "peakVelocity": 0,
+        "peakAcceleration": 0
+      }
+    ]
+  },
+  {
+    "id": "session_c3ebfad2ba04f8_1770599147493",
+    "userId": "u2",
+    "userEmail": "NKennedy13@my.gcu.edu",
+    "createdAt": "2026-02-09T01:05:47.493Z",
+    "endedAt": "2026-02-09T01:06:12.460Z",
+    "notes": "",
+    "completedExercises": [
+      {
+        "exercise": "Curls",
+        "peakPowerW": 0,
+        "peakVelocity": 0,
+        "peakAcceleration": 0
+      },
+      {
+        "exercise": "Squat",
+        "peakPowerW": 0,
+        "peakVelocity": 0,
+        "peakAcceleration": 0
+      }
+    ]
+  }
+]

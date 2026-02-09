@@ -1,13 +1,19 @@
-"use client";
-
 import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useMe } from "@/hooks/useMe";
-import { useActiveSession } from "@/hooks/useActiveSession";
+import { useActiveSessionCtx } from "@/components/ActiveSessionProvider";
 
-export default function CurrentSessionPanel() {
+type Props = {
+  chartDelaySec?: number;
+  onChangeDelay?: (seconds: number) => void;
+};
+
+export default function CurrentSessionPanel({
+  chartDelaySec = 0,
+  onChangeDelay,
+}: Props) {
   const router = useRouter();
   const { user, loading: meLoading } = useMe();
   const {
@@ -22,46 +28,50 @@ export default function CurrentSessionPanel() {
     updateLive,
     endExercise,
     cancelSession,
-  } = useActiveSession();
+  } = useActiveSessionCtx();
 
   const isBusy = meLoading || loading;
 
-  async function endAndSave() {
-    if (!active) return;
+  const endAndSave = async () => {
+    if (!active || !user?.id) return;
 
-    // Convert active session -> history session (peaks only)
-    const historySession = {
-      id: active.id,
-      userId: active.userId, // server will enforce anyway
-      startedAt: active.startedAt,
-      durationSec,
-      notes: active.notes?.trim() ? active.notes.trim() : undefined,
-      exercises: active.completedExercises,
-    };
+    try {
+      // If there is an active exercise, end it first so it becomes part of completedExercises
+      if (active.currentExercise) {
+        await endExercise();
+      }
 
-    const res = await fetch("/api/sessions", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify(historySession),
-    });
+      // Re-fetch latest session state (because endExercise updates it)
+      const resActive = await fetch("/api/session/active", { credentials: "include" });
+      const { active: latest } = await resActive.json();
 
-    if (!res.ok) {
-      alert("Failed to save session.");
-      return;
+      // Save to our new mock sessions endpoint
+      const res = await fetch("/api/sessions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ session: latest, user }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Failed to save session");
+      }
+
+      // Clear active session after save
+      await cancelSession();
+    } catch (e) {
+      console.error(e);
+      // optional: show toast / UI error
+      alert("Failed to save session. Check console.");
     }
-
-    // clear active session server-side
-    await fetch("/api/session/active", { method: "DELETE", credentials: "include" });
-
-    router.refresh();
-  }
+  };
 
   return (
-    <Card className="p-4 space-y-4">
-      <div className="flex items-start justify-between gap-4">
+    <Card className="space-y-4 p-4 sm:p-5 md:p-6">
+      <div className="flex flex-wrap items-start justify-between gap-3 sm:gap-4">
         <div>
-          <p className="text-lg font-semibold text-foreground">Current Session</p>
+          <p className="text-lg font-semibold text-foreground sm:text-xl">Current Session</p>
           <p className="text-sm text-muted-foreground">
             {!inSession ? "Not started" : `Active • ${Math.floor(durationSec / 60)}m ${durationSec % 60}s`}
           </p>
@@ -75,7 +85,7 @@ export default function CurrentSessionPanel() {
             Start Session
           </Button>
         ) : (
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             <Button variant="outline" onClick={endAndSave}>
               End & Save
             </Button>
@@ -88,14 +98,15 @@ export default function CurrentSessionPanel() {
 
       {inSession && active && (
         <>
-          <div className="grid gap-2">
+          {/* Session Notes */}
+          {/* <div className="grid gap-2">
             <p className="text-sm font-medium text-foreground">Session Notes</p>
             <Input
               value={active.notes ?? ""}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Optional notes (e.g., squats 3x5)..."
             />
-          </div>
+          </div> */}
 
           <div className="grid gap-2">
             <p className="text-sm font-medium text-foreground">Exercise</p>
@@ -122,8 +133,22 @@ export default function CurrentSessionPanel() {
             )}
           </div>
 
+          <div className="flex flex-wrap items-center gap-2 text-sm">
+            <span className="text-primary whitespace-nowrap">Chart delay:</span>
+            <select
+              className="rounded-md border px-2 py-1 bg-background"
+              value={chartDelaySec}
+              onChange={(e) => onChangeDelay?.(Number(e.target.value))}
+            >
+              <option value={0}>0s</option>
+              <option value={5}>5s</option>
+              <option value={10}>10s</option>
+              <option value={15}>15s</option>
+            </select>
+          </div>
+
           {/* Mock live controls for now */}
-          {active.currentExercise && (
+          {/* {active.currentExercise && (
             <div className="grid gap-3 rounded-lg border p-3">
               <p className="text-sm font-medium text-foreground">Mock Live Metrics</p>
               <div className="grid gap-3 md:grid-cols-3">
@@ -174,7 +199,7 @@ export default function CurrentSessionPanel() {
                 Peaks are tracked automatically while the exercise is active.
               </p>
             </div>
-          )}
+          )} */}
 
           <div className="grid gap-2">
             <p className="text-sm font-medium text-foreground">Completed Exercises</p>
