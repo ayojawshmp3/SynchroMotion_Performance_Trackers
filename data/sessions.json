@@ -68,5 +68,27 @@
         "peakAcceleration": 0
       }
     ]
+  },
+  {
+    "id": "session_03ce434f5e3bf_1770677119722",
+    "userId": "u1",
+    "userEmail": "JAlvarez91@my.gcu.edu",
+    "createdAt": "2026-02-09T22:45:19.722Z",
+    "endedAt": "2026-02-09T22:46:06.342Z",
+    "notes": "",
+    "completedExercises": [
+      {
+        "exercise": "Curls",
+        "peakPowerW": 0,
+        "peakVelocity": 0,
+        "peakAcceleration": 0
+      },
+      {
+        "exercise": "Curls",
+        "peakPowerW": 0,
+        "peakVelocity": 0,
+        "peakAcceleration": 0
+      }
+    ]
   }
 ]

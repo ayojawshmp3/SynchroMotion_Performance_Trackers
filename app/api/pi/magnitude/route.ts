@@ -1,26 +1,38 @@
 import { NextResponse } from "next/server";
 
+const PI_BASE =                                                                            
+  process.env.NEXT_PUBLIC_PI_API_BASE_URL?.replace(/\/+$/, "") ??                          
+  "http://raspberrypi.bambino-burbot.ts.net:8000"; // or 100.114.213.75
+
 export async function GET() {
-  const t = Date.now() / 1000;
+  try {
+    const upstream = await fetch(`${PI_BASE}/magnitude`, {
+      cache: "no-store",
+    });
 
-  // Big, obvious waveform (0..~450-ish)
-  const base = 200;
-  const wave = 180 * Math.abs(Math.sin(t * 1.4));
-  const jitter = 30 * Math.sin(t * 8);
+    if (!upstream.ok) {
+      return NextResponse.json(
+        { ok: false, error: "Pi API returned a non-200 response" },
+        { status: 502 }
+      );
+    }
 
-  const magnitude = Math.max(0, base + wave + jitter);
+    const json = await upstream.json();
+    const res = NextResponse.json(json);
 
-  const res = NextResponse.json({
-    magnitude: Number(magnitude.toFixed(2)),
-  });
+    // prevent caching
+    res.headers.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    res.headers.set("Pragma", "no-cache");
+    res.headers.set("Expires", "0");
 
-  // prevent caching
-  res.headers.set(
-    "Cache-Control",
-    "no-store, no-cache, must-revalidate, proxy-revalidate"
-  );
-  res.headers.set("Pragma", "no-cache");
-  res.headers.set("Expires", "0");
-
-  return res;
+    return res;
+  } catch (err: any) {
+    return NextResponse.json(
+      { ok: false, error: err?.message ?? "Failed to reach Pi API" },
+      { status: 502 }
+    );
+  }
 }
